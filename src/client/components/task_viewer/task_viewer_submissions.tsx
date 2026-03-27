@@ -13,13 +13,16 @@ type TaskViewerSubmissionsProps = {
 };
 
 export const TaskViewerSubmissions = ({ task, cache }: TaskViewerSubmissionsProps) => {
+  const [loaded, setLoaded] =  useState(cache.loaded);
+
   const loadSubmissions = useCallback(async () => {
     if (cache.loaded) {
       return cache.submissions;
     }
-    return cache.loadUserTaskSubmissions(task.id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- pre-existing error before eslint inclusion
-  }, [cache]);
+    const result = await cache.loadUserTaskSubmissions(task.id);
+    setLoaded(cache.loaded);
+    return result;
+  }, [cache, task.id]);
 
   const [overallVerdict, setOverallVerdict] = useState<OverallVerdictDisplayDTO | undefined>(
     undefined
@@ -37,8 +40,7 @@ export const TaskViewerSubmissions = ({ task, cache }: TaskViewerSubmissionsProp
       setOverallVerdict(overall_verdict.verdict as OverallVerdictDisplayDTO | undefined);
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- pre-existing error before eslint inclusion
-  }, []);
+  }, [task.id]);
 
   return (
     <div>
@@ -47,7 +49,7 @@ export const TaskViewerSubmissions = ({ task, cache }: TaskViewerSubmissionsProp
         <OverallScoreDisplay overallVerdict={overallVerdict} className="ml-auto" />
       </div>
       <SubmissionsTable
-        loaded={cache.loaded}
+        loaded={loaded}
         submissions={cache.submissions}
         loadSubmissions={loadSubmissions}
         showUser={false}

@@ -18,16 +18,13 @@ type SubmissionTableProps = {
 };
 
 export const SubmissionsTable = ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- pre-existing error before eslint inclusion
-  loaded,
   submissions,
   loadSubmissions,
   showUser,
 }: SubmissionTableProps) => {
   useEffect(() => {
     loadSubmissions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- pre-existing error before eslint inclusion
-  }, []);
+  }, [loadSubmissions]);
 
   return (
     <div className={classNames(styles.submissions, showUser && styles.showUser)}>
@@ -48,7 +45,6 @@ type SubmissionRowProps = {
   showUser: boolean;
 };
 
-// eslint-disable-next-line react/display-name -- pre-existing error before eslint inclusion
 const SubmissionRow = memo(({ submission, showUser }: SubmissionRowProps) => {
   const textVerdict =
     submission.verdict_id == null
@@ -82,13 +78,13 @@ const SubmissionRow = memo(({ submission, showUser }: SubmissionRowProps) => {
     </>
   );
 });
+SubmissionRow.displayName = 'SubmissionRow';
 
 type SubmissionCellProps = {
   className?: string;
   children?: ReactNode;
 };
 
-// eslint-disable-next-line react/display-name -- pre-existing error before eslint inclusion
 const SubmissionHeader = memo(({ className, children }: SubmissionCellProps) => {
   return (
     <div
@@ -101,8 +97,8 @@ const SubmissionHeader = memo(({ className, children }: SubmissionCellProps) => 
     </div>
   );
 });
+SubmissionHeader.displayName = 'SubmissionHeader';
 
-// eslint-disable-next-line react/display-name -- pre-existing error before eslint inclusion
 const SubmissionCell = memo(({ className, children }: SubmissionCellProps) => {
   return (
     <div
@@ -115,13 +111,13 @@ const SubmissionCell = memo(({ className, children }: SubmissionCellProps) => {
     </div>
   );
 });
+SubmissionCell.displayName = 'SubmissionCell';
 
 type OverallScoreProps = {
   overallVerdict: OverallVerdictDisplayDTO | undefined;
   className?: string;
 };
 
-// eslint-disable-next-line react/display-name -- pre-existing error before eslint inclusion
 export const OverallScoreDisplay = memo(({ overallVerdict, className }: OverallScoreProps) => {
   if (overallVerdict == undefined) {
     return null;
@@ -148,3 +144,4 @@ export const OverallScoreDisplay = memo(({ overallVerdict, className }: OverallS
     </div>
   );
 });
+OverallScoreDisplay.displayName = 'OverallScoreDisplay';
