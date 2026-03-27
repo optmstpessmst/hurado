@@ -396,6 +396,7 @@ export async function upsertOverallVerdict(
       .innerJoin("submissions", "submissions.id", "verdicts.submission_id")
       .where("submissions.contest_id", "=", contest_id)
       .where("verdicts.is_official", "=", true)
+      .where("submissions.user_id", "=", user_id)
       .select(["task_subtasks.order", "verdict_subtasks.score_raw"])
       .execute();
 
